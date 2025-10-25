@@ -12,4 +12,3 @@ public class Set
     public Series Series { get; set; } = null!;
 
 }
-
