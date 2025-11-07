@@ -6,5 +6,8 @@ public class Set
     public string Name { get; set; } = null!;
     public int Year { get; set; }
     public int Number_Of_Parts { get; set; }
-    public string? Preview_URL { get; set; } 
+    public string? Preview_Image_URL { get; set; } 
+    public string? Instructions_URL { get; set; }
+
+    public ICollection<Category> Categories = [];
 }
