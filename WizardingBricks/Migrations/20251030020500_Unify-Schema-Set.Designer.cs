@@ -11,8 +11,8 @@ using WizardingBricks.Models;
 namespace WizardingBricks.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251026044248_lego_set_number_added")]
-    partial class lego_set_number_added
+    [Migration("20251030020500_Unify-Schema-Set")]
+    partial class UnifySchemaSet
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,10 +53,6 @@ namespace WizardingBricks.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -70,15 +66,9 @@ namespace WizardingBricks.Migrations
                     b.Property<int>("SeriesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Set_Number")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type")
+                    b.Property<string>("Set_Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Version")
-                        .HasColumnType("int");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");

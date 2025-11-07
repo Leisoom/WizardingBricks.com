@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 using WizardingBricks.Components;
 using WizardingBricks.Models;
+using WizardingBricks.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,8 @@ builder.Services.AddMudServices();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<SetService>();
 
 var app = builder.Build();
 
@@ -32,6 +35,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 
 app.UseHttpsRedirection();
 

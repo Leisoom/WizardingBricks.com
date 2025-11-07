@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Wizarding Bricks</PageTitle>
 
 <MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
 <MudText Class="mb-8">Welcome to your new app, powered by MudBlazor and the .NET 9 Template!</MudText>
@@ -11,6 +11,22 @@
         <b>www.mudblazor.com</b>
     </MudLink>
 </MudAlert>
+<MudCard>
+    <MudCardContent>
+        <MudText>Story of the day</MudText>
+        <MudText Typo="Typo.body2">The quick, brown fox jumps over a lazy dog.</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton OnClick="ShowMessage" Variant="Variant.Text" Color="Color.Primary">Learn more</MudButton>
+    </MudCardActions>
+</MudCard>
+<MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
+<MudText>@TextValue</MudText>
+
+@if (isShown)
+{
+    <MudText>Message Shown</MudText>
+}
 
 <br />
 <MudText Typo="Typo.h5" GutterBottom="true">Interactivity in this Template</MudText>
@@ -57,3 +73,14 @@
         More details
     </MudLink>
 </MudText>
+
+@code{
+
+    private bool isShown = false;
+    public string TextValue { get; set; } = "";
+
+    public void ShowMessage()
+    {
+        isShown = true;
+    }
+  }

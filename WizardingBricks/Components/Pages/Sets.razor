@@ -1,0 +1,24 @@
+﻿@page "/sets"
+@inject SetService SetService
+
+<h3>Component</h3>	
+<MudGrid>
+	@foreach(Set i in SetList) {<MudItem xs="4">
+		<MudCard Class=" mud-theme-primary ma-3">
+			<MudCardContent>
+				<MudText>@i.Name</MudText>
+					<MudImage Src="@i.Preview_URL" Alt="Image of Preview" Elevation="25" Class="rounded-lg ma-4" />
+				</MudCardContent>
+		</MudCard>
+	</MudItem>}
+</MudGrid>
+	
+@code {
+
+	public List<Set> SetList { get; set; } = [];
+
+	protected override async Task OnInitializedAsync()
+	{
+		SetList = await SetService.GetSetList();
+	}
+}
