@@ -9,5 +9,5 @@ public class Set
     public string? Preview_Image_URL { get; set; } 
     public string? Instructions_URL { get; set; }
 
-    public ICollection<Category> Categories = [];
+    public ICollection<Category> Categories { get; set; } = [];
 }

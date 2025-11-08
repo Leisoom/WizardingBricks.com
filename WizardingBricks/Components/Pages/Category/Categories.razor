@@ -1,0 +1,25 @@
+﻿@page "/categories"
+@inject CategoryService CategoryService
+<h1>Categories</h1>
+
+<MudTable Items="CategoryList" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>Name</MudTh>
+        <MudTh>Color</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Color">@context.Color </MudTd>
+
+    </RowTemplate>
+</MudTable>
+
+@code {
+
+	public List<Category> CategoryList { get; set; } = [];
+
+	protected override async Task OnInitializedAsync()
+	{
+		CategoryList = await CategoryService.GetCategoriesAsync();
+	}
+}

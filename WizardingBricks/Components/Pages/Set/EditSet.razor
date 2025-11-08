@@ -2,6 +2,7 @@
 @page "/edit-set/{Id:int}"
 @inject SetService SetService
 @inject NavigationManager Navigation
+@inject CategoryService CategoryService
 
 @if(Id is null){
 	<h1>Add A New Set</h1>
@@ -34,7 +35,15 @@ else{
 		<MudInputLabel>Instructions URL</MudInputLabel>
 		<MudTextField @bind-Value="CurrentSet.Instructions_URL" Variant="Variant.Text"/>
 	</MudItem>
+	<MudItem Class="my-3">
+		<MudChipSet @bind-SelectedValues="_selected" SelectionMode="SelectionMode.MultiSelection" CheckMark>
+			@foreach(Category category in CategoryList)
+			{
+				<MudChip Value="category" Text="@category.Name"/>
+			}
 
+		</MudChipSet>
+	</MudItem>
 	<MudButton Color="Color.Primary" OnClick="SaveSet" Class="my-3">Save Set</MudButton>
 
 </MudPaper>
@@ -44,6 +53,9 @@ else{
 	[Parameter]
 	public int? Id { get; set; }
 	public Set CurrentSet { get; set; } = new();
+	public List<Category> CategoryList { get; set; } = [];
+	private IReadOnlyCollection<Category> _selected = [];
+
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -55,10 +67,13 @@ else{
 				CurrentSet = set;
 			}
 		}
+		CategoryList = await CategoryService.GetCategoriesAsync();
 	}
 
 	public async Task SaveSet()
 	{
+		CurrentSet.Categories = _selected.ToList();
+
 		if(Id is not null)
 		{
 			await SetService.UpdateSet(CurrentSet);

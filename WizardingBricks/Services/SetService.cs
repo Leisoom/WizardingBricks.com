@@ -7,7 +7,7 @@ public class SetService(AppDbContext Context)
 {
     public async Task<Set?> GetSetById(int Id)
     {
-        var result = await Context.Sets.FirstOrDefaultAsync(s => s.Id == Id);
+        var result = await Context.Sets.Include(s => s.Categories).FirstOrDefaultAsync(s => s.Id == Id);
         return result;
     }
 
@@ -35,6 +35,7 @@ public class SetService(AppDbContext Context)
             dbSet.Preview_Image_URL = set.Preview_Image_URL;
             dbSet.Instructions_URL = set.Instructions_URL;
             dbSet.Name = set.Name;
+            dbSet.Categories = set.Categories;
 
             await Context.SaveChangesAsync();
         }

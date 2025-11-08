@@ -12,8 +12,12 @@ else
 	<MudText>@Set.Year </MudText>
 	<MudText>@Set.Number_Of_Parts </MudText>
 	<MudImage Src="@Set.Preview_Image_URL"/>
+	@foreach (Category category in Set.Categories)
+	{
+		<MudChip Href="categories/1" T="Category">@category.Name</MudChip>
+	}
 	<MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Href="@Set.Instructions_URL">Instructions</MudButton>
-
+	
 }
 
 @code {
