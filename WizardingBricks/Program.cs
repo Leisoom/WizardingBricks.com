@@ -19,6 +19,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddScoped<SetService>();
+builder.Services.AddScoped<CategoryService>();
 
 var app = builder.Build();
 

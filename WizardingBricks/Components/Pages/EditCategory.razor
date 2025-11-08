@@ -1,0 +1,52 @@
+﻿@page "/edit-category"
+@page "/edit-category/{Id:int}"
+@inject CategoryService CategoryService
+@inject NavigationManager Navigation
+
+<h3>EditCategory</h3>
+
+<MudPaper class="pa-5 my-2" Outlined Width="80%">
+	<MudItem Class="my-3">
+		<MudInputLabel>Name</MudInputLabel>
+		<MudTextField @bind-Value="Category.Name" Variant="Variant.Text" />
+	</MudItem>
+	<MudItem Class="my-3">
+		<MudInputLabel>Color</MudInputLabel>
+		<MudColorPicker @bind-text="Category.Color" ColorPickerMode="ColorPickerMode.HEX" />
+	</MudItem>
+
+	<MudButton Color="Color.Primary" OnClick="SaveCategory" Class="my-3">Save Category</MudButton>
+
+</MudPaper>
+@code {
+	[Parameter]
+	public int? Id { get; set; }
+	public Category Category { get; set; } = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (Id is not null)
+		{
+			var category = await CategoryService.GetCategoryAsync((int)Id);
+			if (category is not null)
+			{
+				Category = category;
+			}
+		}
+	}
+
+	public async Task SaveCategory()
+	{
+		if (Id is not null)
+		{
+			await CategoryService.UpdateCategory(Category);
+		}
+		else
+		{
+			await CategoryService.AddCategory(Category);
+		}
+
+		Category = new();
+		Navigation.NavigateTo("/categories");
+	}
+}

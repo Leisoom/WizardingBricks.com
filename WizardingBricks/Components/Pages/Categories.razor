@@ -1,0 +1,20 @@
+﻿@page "/categories"
+@inject CategoryService CategoryService
+<h1>Categories</h1>
+
+@foreach (var category in CategoryList)
+{
+	<MudPaper>
+		<MudText>@category.Name - @category.Color</MudText>
+	</MudPaper>
+}
+
+@code {
+
+	public List<Category> CategoryList { get; set; } = [];
+
+	protected override async Task OnInitializedAsync()
+	{
+		CategoryList = await CategoryService.GetCategoriesAsync();
+	}
+}
