@@ -8,7 +8,7 @@ public class CategoryService(AppDbContext Context)
 {
     public async Task<Category?> GetCategoryAsync(int id)
     {
-        var res = await Context.Categories.FirstOrDefaultAsync(cat => cat.Id == id);
+        var res = await Context.Categories.Include(cat => cat.Sets).FirstOrDefaultAsync(cat => cat.Id == id);
         return res;
     }
 

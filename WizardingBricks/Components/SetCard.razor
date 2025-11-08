@@ -7,11 +7,10 @@
 		</CardHeaderContent>
 	</MudCardHeader>
 	<MudCardContent>
-		<MudImage Src="@Set.Preview_Image_URL" ObjectFit="ObjectFit.Contain" />
+		<MudImage Src="@Set.Preview_Image_URL"  />
 	</MudCardContent>
 	<MudCardActions>
-		<MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Href="@Set.Instructions_URL">Instructions</MudButton>
-		<MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" OnClick="NavigateToEditPage">Edit</MudButton>
+		<MudButton Variant="Variant.Filled" Color="Color.Primary" class="mx-3" Target="_blank" OnClick="NavigateToEditPage">Edit</MudButton>
 		<MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" OnClick="() => NavigateToDetailPage(Set.Id)">Details</MudButton>
 	</MudCardActions>
 </MudCard>

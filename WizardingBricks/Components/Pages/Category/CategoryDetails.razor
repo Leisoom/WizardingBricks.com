@@ -1,0 +1,35 @@
+﻿@page "/categories/{id:int}"
+@inject CategoryService CategoryService
+
+@if (Category is null)
+{
+	<h1>Category is not found</h1>
+}
+else
+{
+	<h1> @Category.Name</h1>
+	<MudText>@Category.Color </MudText>
+	@foreach(Set set in Category.Sets)
+	{
+		<SetCard Set="set"/>
+	}
+}
+
+@code {
+	[Parameter]
+	public int? Id { get; set; }
+	public Category Category { get; set; } = null!;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (Id is not null)
+		{
+			var category = await CategoryService.GetCategoryAsync((int)Id);
+
+			if (category is not null)
+			{
+				Category = category;
+			}
+		}
+	}
+}
