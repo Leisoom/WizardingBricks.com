@@ -1,0 +1,36 @@
+﻿@page "/sets/{id:int}"
+@inject SetService SetService
+
+@if(Set is null)
+{
+	<h1>Set is not found</h1>
+}
+else
+{
+	<h1> @Set.Name</h1>
+	<MudText>@Set.Set_Number </MudText>
+	<MudText>@Set.Year </MudText>
+	<MudText>@Set.Number_Of_Parts </MudText>
+	<MudImage Src="@Set.Preview_Image_URL"/>
+	<MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Href="@Set.Instructions_URL">Instructions</MudButton>
+
+}
+
+@code {
+	[Parameter]
+	public int? Id { get; set; }
+	public Set Set { get; set; } = null!;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if(Id is not null)
+		{
+			var set = await SetService.GetSetById((int)Id);
+
+			if(set is not null)
+			{
+				Set = set;
+			}
+		}
+	}
+}

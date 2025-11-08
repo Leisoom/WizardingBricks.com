@@ -1,0 +1,32 @@
+﻿@inject NavigationManager Navigation
+
+<MudCard Class=" pa-3">
+	<MudCardHeader>
+		<CardHeaderContent>
+			<MudText Typo="Typo.h6">@Set.Name - @Set.Year</MudText>
+		</CardHeaderContent>
+	</MudCardHeader>
+	<MudCardContent>
+		<MudImage Src="@Set.Preview_Image_URL" ObjectFit="ObjectFit.Contain" />
+	</MudCardContent>
+	<MudCardActions>
+		<MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Href="@Set.Instructions_URL">Instructions</MudButton>
+		<MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" OnClick="NavigateToEditPage">Edit</MudButton>
+		<MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" OnClick="() => NavigateToDetailPage(Set.Id)">Details</MudButton>
+
+	</MudCardActions>
+</MudCard>
+
+@code {
+	[Parameter]
+	public Set Set { get; set; } = null!;
+
+	public void NavigateToEditPage()
+	{
+		Navigation.NavigateTo("/edit-set/" + Set.Id);
+	}
+	public void NavigateToDetailPage(int Id)
+	{
+		;
+	}
+}

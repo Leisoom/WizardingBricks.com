@@ -1,16 +1,19 @@
 ﻿
 <MudNavMenu>
-    <MudNavGroup Title="Settings" @bind-Expanded=_expanded>
-        <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-        <MudNavLink Href="weather" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Weather</MudNavLink>
-        <MudNavLink Href="sets" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CompassCalibration">Component</MudNavLink>
-        <MudNavLink Href="add-set" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.HdrPlus">Set</MudNavLink>
+    <MudNavGroup Title="Sets" Expanded>
+        <MudNavLink Href="sets" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Set List</MudNavLink>
+        <MudNavLink Href="edit-set" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Add Set</MudNavLink>
+    </MudNavGroup>
+    <MudNavGroup Title="Books / Movies" Expanded>
+        <MudNavLink Href="/categories/1" Match="NavLinkMatch.All">Philosopher's Stone</MudNavLink>
+        <MudNavLink Href="/categories/2" Match="NavLinkMatch.Prefix">Chamber of Secrets</MudNavLink>
+        <MudNavLink Href="/categories/3" Match="NavLinkMatch.Prefix">Prisoner of Azkaban</MudNavLink>
+        <MudNavLink Href="/categories/4" Match="NavLinkMatch.Prefix">Goblet of Fire</MudNavLink>
+        <MudNavLink Href="/categories/5" Match="NavLinkMatch.Prefix">Order of the Phoenix</MudNavLink>
+        <MudNavLink Href="/categories/6" Match="NavLinkMatch.Prefix">Half-Blood Prince</MudNavLink>
+        <MudNavLink Href="/categories/7" Match="NavLinkMatch.Prefix">Deathly Hallows</MudNavLink>
+
     </MudNavGroup>
 </MudNavMenu>
-
-@code{
-    bool _expanded = false;
-
-}
 
 

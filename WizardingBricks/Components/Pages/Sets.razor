@@ -1,16 +1,14 @@
 ﻿@page "/sets"
 @inject SetService SetService
 
-<h3>Component</h3>	
+<h1>List of Sets</h1>	
+
 <MudGrid>
-	@foreach(Set i in SetList) {<MudItem xs="4">
-		<MudCard Class=" mud-theme-primary ma-3">
-			<MudCardContent>
-				<MudText>@i.Name</MudText>
-				<MudImage Src="@i.Preview_Image_URL" Alt="Image of Preview" Elevation="25" Class="rounded-xs ma-4" />
-			</MudCardContent>
-		</MudCard>
-	</MudItem>}
+	@foreach(Set i in SetList) {
+		<MudItem xs="4">
+			<SetCard Set="i"/>
+		</MudItem>
+	}
 </MudGrid>
 	
 @code {

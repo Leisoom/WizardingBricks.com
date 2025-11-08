@@ -23,5 +23,22 @@ public class SetService(AppDbContext Context)
         await Context.SaveChangesAsync();
     }
 
+    public async Task UpdateSet(Set set)
+    {
+        var dbSet = await GetSetById(set.Id);
+
+        if(dbSet is not null)
+        {
+            dbSet.Set_Number = set.Set_Number;
+            dbSet.Number_Of_Parts = set.Number_Of_Parts;
+            dbSet.Year = set.Year;
+            dbSet.Preview_Image_URL = set.Preview_Image_URL;
+            dbSet.Instructions_URL = set.Instructions_URL;
+            dbSet.Name = set.Name;
+
+            await Context.SaveChangesAsync();
+        }
+    }
+
 }
 
