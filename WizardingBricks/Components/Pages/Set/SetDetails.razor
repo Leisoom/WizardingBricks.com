@@ -7,16 +7,23 @@
 }
 else
 {
-	<h1> @Set.Name</h1>
-	<MudText>@Set.Set_Number </MudText>
-	<MudText>@Set.Year </MudText>
-	<MudText>@Set.Number_Of_Parts </MudText>
-	<MudImage Src="@Set.Preview_Image_URL"/>
-	@foreach (Category category in Set.Categories)
-	{
-		<MudChip Href="categories/1" T="Category">@category.Name</MudChip>
-	}
-	<MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Href="@Set.Instructions_URL">Instructions</MudButton>
+	<h1  class="mb-3"> @Set.Name</h1>
+	<MudGrid>
+		<MudItem xs="12" md="6">
+			<MudImage Src="@Set.Preview_Image_URL" Width="1000"/>
+		</MudItem>
+		<MudItem xs="12" md="6">
+			<MudText Typo="Typo.h5">Set Number: @Set.Set_Number </MudText>
+			<MudText Typo="Typo.h5">Year Released: @Set.Year </MudText>
+			<MudText Typo="Typo.h5">Number of Parts: @Set.Number_Of_Parts </MudText>
+			@foreach (Category category in Set.Categories)
+			{
+				<MudChip Size="Size.Large" Href="categories/1" T="Category">@category.Name</MudChip>
+			}
+			<MudDivider/>
+			<MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" Href="@Set.Instructions_URL">Instructions</MudButton>
+		</MudItem>
+	</MudGrid>
 	
 }
 

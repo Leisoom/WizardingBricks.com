@@ -20,8 +20,8 @@ else{
 		<MudTextField @bind-Value="CurrentSet.Name" Variant="Variant.Text" />
 	</MudItem>
 	<MudItem Class="my-3">
-			<MudInputLabel>Year</MudInputLabel>
-			<MudTextField @bind-Value="CurrentSet.Year" Variant="Variant.Text"/>
+		<MudInputLabel>Year</MudInputLabel>
+		<MudTextField @bind-Value="CurrentSet.Year" Variant="Variant.Text"/>
 	</MudItem>
 	<MudItem Class="my-3">
 		<MudInputLabel>Number</MudInputLabel>
@@ -58,7 +58,6 @@ else{
 	public List<Category> CategoryList { get; set; } = [];
 	private IReadOnlyCollection<Category> categories = [];
 
-
 	protected override async Task OnInitializedAsync()
 	{
 		if (Id is not null)
@@ -66,7 +65,8 @@ else{
 			var set = await SetService.GetSetById((int)Id);
 			if (set is not null)
 			{
-				CurrentSet = set;
+				CurrentSet = set;		
+				categories = new ReadOnlyCollection<Category>(CurrentSet.Categories.ToList());
 			}
 		}
 		CategoryList = await CategoryService.GetCategoriesAsync();
