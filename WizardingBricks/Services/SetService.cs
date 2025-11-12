@@ -41,5 +41,12 @@ public class SetService(AppDbContext Context)
         }
     }
 
+    public async Task DeleteSet(Set set)
+    {
+        Context.Sets.Remove(set);
+
+        await Context.SaveChangesAsync();
+    }
+
 }
 

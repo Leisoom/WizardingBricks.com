@@ -41,13 +41,16 @@ else{
 		<MudChipSet @bind-SelectedValues="categories" SelectionMode="SelectionMode.MultiSelection" CheckMark>
 			@foreach(Category category in CategoryList)
 			{
-				<MudChip Value="category" Text="@category.Name"/>
+				<MudChip Value="category" Text="@category.Name" Style="@($"background:{category.Color};")" />
 			}
 
 		</MudChipSet>
 	</MudItem>
 	<MudButton Color="Color.Primary" OnClick="SaveSet" Class="my-3">Save Set</MudButton>
-
+	@if(Id is not null)
+	{
+		<MudButton Color="Color.Primary" OnClick="DeleteSet" Class="my-3">Delete Set</MudButton>
+	}
 </MudPaper>
 
 @code {
@@ -87,6 +90,15 @@ else{
 
 		CurrentSet = new();
 		Navigation.NavigateTo("/sets");
+	}
+
+	public async Task DeleteSet()
+	{
+		await SetService.DeleteSet(CurrentSet);
+
+		CurrentSet = new();
+		Navigation.NavigateTo("/sets");
+
 	}
 
 }
