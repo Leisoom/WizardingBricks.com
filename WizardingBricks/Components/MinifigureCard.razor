@@ -1,0 +1,17 @@
+﻿
+<MudCard>
+	<MudCardHeader>
+		<CardHeaderContent>
+			<MudText Class="text-center">@Minifigure.Name</MudText>
+
+		</CardHeaderContent>
+	</MudCardHeader>
+
+	<MudImage Src="@Minifigure.Preview_Image_URL" Width="200" />
+</MudCard>
+
+@code {
+
+	[Parameter]
+	public Minifigure Minifigure { get; set; }
+}

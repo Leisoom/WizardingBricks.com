@@ -5,13 +5,7 @@
 
 @foreach(var mf in MinifigureList)
 {
-	<MudCard>
-		<MudCardContent>
-			<MudText>@mf.Name</MudText>
-			<MudText>@mf.Description</MudText>
-
-		</MudCardContent>
-	</MudCard>
+	<MinifigureCard Minifigure="mf"/>
 }
 
 @code {

@@ -6,6 +6,10 @@
 @foreach(var character in CharacterList)
 {
 	<MudText>@character.Name</MudText>
+	@foreach(var minifigure in character.Minifigures)
+	{
+		<MudChip Color="Color.Primary" T="string">@minifigure.Name</MudChip>
+	}
 	<MudDivider/>
 }
 

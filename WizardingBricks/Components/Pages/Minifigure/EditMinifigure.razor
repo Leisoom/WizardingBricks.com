@@ -3,7 +3,7 @@
 @inject CharacterService CharacterService
 @inject NavigationManager Navigation
 
-<h3>EditMinifigure</h3>
+<h3>Edit Minifigure</h3>
 <MudPaper class="pa-5 my-2" Outlined Width="80%">
 	<MudItem Class="my-3">
 		<MudInputLabel>Name</MudInputLabel>
@@ -12,6 +12,14 @@
 	<MudItem Class="my-3">
 		<MudInputLabel>Description</MudInputLabel>
 		<MudTextField @bind-Value="Minifigure.Description" Variant="Variant.Text" />
+	</MudItem>
+	<MudItem Class="my-3">
+		<MudInputLabel>Number</MudInputLabel>
+		<MudTextField @bind-Value="Minifigure.Number_Of_Parts" Variant="Variant.Text" />
+	</MudItem>
+	<MudItem Class="my-3">
+		<MudInputLabel>Preview Image URL</MudInputLabel>
+		<MudTextField @bind-Value="Minifigure.Preview_Image_URL" Variant="Variant.Text" />
 	</MudItem>
 	<MudItem Class="my-3">
 		<MudInputLabel>Character</MudInputLabel>
@@ -24,7 +32,7 @@
 			}
 		</MudSelect>
 	</MudItem>
-	<MudButton Color="Color.Primary" OnClick="SaveMinifigure" Class="my-3">Save Set</MudButton>
+	<MudButton Color="Color.Primary" OnClick="SaveMinifigure" Class="my-3">Save Minifigure</MudButton>
 </MudPaper>
 @code {
 
