@@ -1,12 +1,16 @@
 ﻿@page "/minifigures"
 @inject MinifigureService MinifigureService
 
-<h3>Minifigures</h3>
+<h1>Minifigures</h1>
 
-@foreach(var mf in MinifigureList)
-{
-	<MinifigureCard Minifigure="mf"/>
-}
+<MudGrid>
+	@foreach (var mf in MinifigureList)
+	{
+		<MudItem xs="2">
+			<MinifigureCard Minifigure="mf" />
+		</MudItem>
+	}
+</MudGrid>
 
 @code {
 	public List<Minifigure> MinifigureList { get; set; } = [];

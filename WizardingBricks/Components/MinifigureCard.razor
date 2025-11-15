@@ -1,12 +1,7 @@
 ﻿@inject NavigationManager Navigation
 <MudCard>
-	<MudCardHeader>
-		<CardHeaderContent>
-			<MudLink OnClick="NavigateToDetailsPage">@Minifigure.Name</MudLink>
-		</CardHeaderContent>
-	</MudCardHeader>
-
-	<MudImage Src="@Minifigure.Preview_Image_URL" Width="200" />
+	<MudImage Class="align-self-center" Src="@Minifigure.Preview_Image_URL" Width="200" />
+	<MudText Class="cursor-pointer mx-auto my-2" @onclick="NavigateToDetailsPage">@Minifigure.Name</MudText>
 </MudCard>
 
 @code {

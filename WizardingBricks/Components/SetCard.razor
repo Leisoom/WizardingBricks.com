@@ -3,15 +3,13 @@
 <MudCard Class=" pa-3">
 	<MudCardHeader Class="mb-n6">
 		<CardHeaderContent>
-			<MudText Typo="Typo.h6">@Set.Name - @Set.Year</MudText>
+			<MudLink Color="Color.Inherit" OnClick="NavigateToDetailPage" Typo="Typo.h6">@Set.Name - @Set.Year</MudLink>
 		</CardHeaderContent>
 	</MudCardHeader>
 	<MudCardContent>
 		<MudImage Src="@Set.Preview_Image_URL"  />
 	</MudCardContent>
 	<MudCardActions>
-		<MudButton Variant="Variant.Filled" Color="Color.Primary" class="mx-3" Target="_blank" OnClick="NavigateToEditPage">Edit</MudButton>
-		<MudButton Variant="Variant.Filled" Color="Color.Primary" Target="_blank" OnClick="() => NavigateToDetailPage(Set.Id)">Details</MudButton>
 	</MudCardActions>
 </MudCard>
 
@@ -19,7 +17,6 @@
 	[Parameter]
 	public Set Set { get; set; } = null!;
 
-	public void NavigateToEditPage() => Navigation.NavigateTo("/edit-set/" + Set.Id);
-	public void NavigateToDetailPage(int Id) => Navigation.NavigateTo("/sets/" + Set.Id);
+	public void NavigateToDetailPage() => Navigation.NavigateTo("/sets/" + Set.Id);
 
 }
