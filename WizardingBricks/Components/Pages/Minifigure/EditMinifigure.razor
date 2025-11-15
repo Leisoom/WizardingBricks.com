@@ -49,9 +49,12 @@
 	public async Task SaveMinifigure()
 	{
 
-		var character = CharacterList.First(c => c.Name == _selected);
+		if(_selected is not null)
+		{
+			var character = CharacterList.First(c => c.Name == _selected);
 
-		Minifigure.Character = character;
+			Minifigure.Character = character;
+		}
 
 		await MinifigureService.AddMinifigure(Minifigure);
 		Navigation.NavigateTo("/minifigures");

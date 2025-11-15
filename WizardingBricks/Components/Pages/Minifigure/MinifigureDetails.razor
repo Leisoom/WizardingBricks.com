@@ -11,9 +11,13 @@ else{
 	<MudImage Src="@Minifigure.Preview_Image_URL" Width="800" />
 	<MudText>@Minifigure.Description</MudText>
 
-	<MudItem>
-		<MudText>Based on: @Minifigure.Character.Name</MudText>
-	</MudItem>
+	@if(Minifigure.Character is not null)
+	{
+		<MudItem>
+			<MudText>Based on: @Minifigure.Character.Name</MudText>
+		</MudItem>
+	}
+
 	<MudItem>
 		<MudText>Sets Featured In</MudText>
 		@foreach(var set in @Minifigure.Sets)
