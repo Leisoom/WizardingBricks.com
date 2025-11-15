@@ -1,0 +1,52 @@
+﻿@inject MinifigureService MinifigureService
+
+<MudDialog>
+    <TitleContent>
+        Minifigure Browser
+    </TitleContent>
+    <DialogContent>
+        @SelectedFigures.Count
+        <MudGrid>
+            @foreach (var mf in MinifigureList)
+            {
+                <MudButton xs="2" OnClick="() => AddToSelection(mf)">
+                    <MudPaper >
+
+                        <MinifigureCard Minifigure="mf" />
+                    </MudPaper>
+                </MudButton>
+            }
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">OK</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
+    public List<Minifigure> MinifigureList { get; set; } = [];
+    public HashSet<Minifigure> SelectedFigures { get; set; } = [];
+    private int _selectedCount { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        MinifigureList = await MinifigureService.GetMinifiguresAsync();
+    }
+
+    public void AddToSelection(Minifigure selected)
+    {
+        var result = SelectedFigures.Add(selected);
+
+        if (!result)
+        {
+            SelectedFigures.Remove(selected);
+        }
+
+    }
+
+    private void Submit() => MudDialog.Close(DialogResult.Ok(SelectedFigures));
+
+    private void Cancel() => MudDialog.Cancel();
+}

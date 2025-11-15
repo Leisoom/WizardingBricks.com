@@ -7,7 +7,10 @@ public class SetService(AppDbContext Context)
 {
     public async Task<Set?> GetSetById(int Id)
     {
-        var result = await Context.Sets.Include(s => s.Categories).FirstOrDefaultAsync(s => s.Id == Id);
+        var result = await Context.Sets
+            .Include(s => s.Categories)
+            .Include(s => s.Minifigures)
+            .FirstOrDefaultAsync(s => s.Id == Id);
         return result;
     }
 

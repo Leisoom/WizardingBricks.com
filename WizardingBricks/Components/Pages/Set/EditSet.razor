@@ -52,65 +52,90 @@ else{
 	{
 		<MudButton Color="Color.Primary" OnClick="OpenDeleteDialog" Class="my-3">Delete Set</MudButton>
 	}
+
+	<MudButton @onclick="OpenDialogAsync" Variant="Variant.Filled" Color="Color.Primary">
+		Open simple dialog
+	</MudButton>
 </MudPaper>
 
 @code {
 
-	[Parameter]
-	public int? Id { get; set; }
-	public Set CurrentSet { get; set; } = new();
-	public List<Category> CategoryList { get; set; } = [];
-	private IReadOnlyCollection<Category> categories = [];
+    [Parameter]
+    public int? Id { get; set; }
+    public Set CurrentSet { get; set; } = new();
+    public List<Category> CategoryList { get; set; } = [];
+    private IReadOnlyCollection<Category> categories = [];
 
-	protected override async Task OnInitializedAsync()
-	{
-		if (Id is not null)
-		{
-			var set = await SetService.GetSetById((int)Id);
-			if (set is not null)
-			{
-				CurrentSet = set;		
-				categories = new ReadOnlyCollection<Category>(CurrentSet.Categories.ToList());
-			}
-		}
-		CategoryList = await CategoryService.GetCategoriesAsync();
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id is not null)
+        {
+            var set = await SetService.GetSetById((int)Id);
+            if (set is not null)
+            {
+                CurrentSet = set;		
+                categories = new ReadOnlyCollection<Category>(CurrentSet.Categories.ToList());
+            }
+        }
+        CategoryList = await CategoryService.GetCategoriesAsync();
+    }
 
-	public async Task SaveSet()
-	{
-		CurrentSet.Categories = categories.ToList();
+    public async Task SaveSet()
+    {
+        CurrentSet.Categories = categories.ToList();
 
-		if(Id is not null)
-		{
-			await SetService.UpdateSet(CurrentSet);
-		}
-		else
-		{
-			await SetService.AddSet(CurrentSet);
-		}
+        if(Id is not null)
+        {
+            await SetService.UpdateSet(CurrentSet);
+        }
+        else
+        {
+            await SetService.AddSet(CurrentSet);
+        }
 
-		CurrentSet = new();
-		Navigation.NavigateTo("/sets");
-	}
+        CurrentSet = new();
+        Navigation.NavigateTo("/sets");
+    }
 
-	public async Task OpenDeleteDialog()
-	{
-		var options = new DialogOptions { CloseOnEscapeKey = true };
-		var parameters = new DialogParameters<ConfirmDialog>
+    public async Task OpenDeleteDialog()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        var parameters = new DialogParameters<ConfirmDialog>
 		{
 			{ x => x.ContentText, $"Do you really want to delete {CurrentSet.Name}? This process cannot be undone." },
 			{ x => x.ButtonText, "Delete" },
 			{ x => x.Color, Color.Error },
 		};
 
-		var dialog = await DialogService.ShowAsync<ConfirmDialog>("Confirm Deletion", parameters, options);
-		var result = await dialog.Result;
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Confirm Deletion", parameters, options);
+        var result = await dialog.Result;
 
-		if (!result.Canceled)
-		{
-			await SetService.DeleteSet(CurrentSet);
-			CurrentSet = new();
-			Navigation.NavigateTo("/sets");
-		}
-	}
+        if (!result.Canceled)
+        {
+            await SetService.DeleteSet(CurrentSet);
+            CurrentSet = new();
+            Navigation.NavigateTo("/sets");
+        }
+    }
+
+    private async Task OpenDialogAsync()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, MaxWidth = MaxWidth.ExtraLarge, CloseButton = true };
+
+        IDialogReference? dialog = await DialogService.ShowAsync<MinifigureBrowser>("Minifigure Browser", options);
+        DialogResult? result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            var minifigures = (HashSet<Minifigure>)result.Data!;
+
+           
+            CurrentSet.Minifigures = minifigures.ToList();
+
+   
+
+
+        }
+    
+    }
 }
