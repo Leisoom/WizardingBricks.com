@@ -120,22 +120,18 @@ else{
 
     private async Task OpenDialogAsync()
     {
-        var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, MaxWidth = MaxWidth.ExtraLarge, CloseButton = true };
-
-        IDialogReference? dialog = await DialogService.ShowAsync<MinifigureBrowser>("Minifigure Browser", options);
+        var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, MaxWidth = MaxWidth.Large, CloseButton = true };
+        var parameters = new DialogParameters<MinifigureBrowser>
+        {
+            { x => x.PreselectedMinifigures, CurrentSet.Minifigures},
+        };
+        IDialogReference? dialog = await DialogService.ShowAsync<MinifigureBrowser>("Minifigure Browser", parameters, options);
         DialogResult? result = await dialog.Result;
-
+  
         if (!result.Canceled)
         {
-            var minifigures = (HashSet<Minifigure>)result.Data!;
-
-           
+            var minifigures = (HashSet<Minifigure>)result.Data!; 
             CurrentSet.Minifigures = minifigures.ToList();
-
-   
-
-
         }
-    
     }
 }

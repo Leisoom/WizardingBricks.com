@@ -8,15 +8,16 @@
         <MudGrid>
             @foreach (var mf in MinifigureList)
             {
-                <MudButton xs="2" OnClick="() => AddToSelection(mf)" Style="@(isSelected(mf) ? "background: blue;" : "background: red;")">
+            <MudItem xs="2" Class="mx-3">
+                <MudButton OnClick="() => AddToSelection(mf)" Style="@(isSelected(mf) ? "background: green;" : "background: red;")">
                     <MudPaper>
-
                         <MinifigureCard Minifigure="mf" />
                     </MudPaper>
                 </MudButton>
+            </MudItem>   
             }
         </MudGrid>
-        <MudText> @SelectedFigures.Count Minifigures(s) Selected</MudText>
+        <MudText Class="my-2 text-bold"> @SelectedFigures.Count Minifigures(s) Selected</MudText>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -27,12 +28,20 @@
 
     [CascadingParameter]
     private IMudDialogInstance MudDialog { get; set; }
+    [Parameter]
+    public ICollection<Minifigure> PreselectedMinifigures { get; set; } = [];
+
     public List<Minifigure> MinifigureList { get; set; } = [];
     public HashSet<Minifigure> SelectedFigures { get; set; } = [];
     private int _selectedCount { get; set; }
     protected async override Task OnInitializedAsync()
     {
         MinifigureList = await MinifigureService.GetMinifiguresAsync();
+
+        if(PreselectedMinifigures.Count != 0)
+        {
+            PreselectedMinifigures.ToList().ForEach(x => SelectedFigures.Add(x));
+        }
     }
 
     public void AddToSelection(Minifigure selected)
@@ -43,12 +52,10 @@
         {
             SelectedFigures.Remove(selected);
         }
-
     }
 
     public bool isSelected(Minifigure mf) => SelectedFigures.Contains(mf);
 
     private void Submit() => MudDialog.Close(DialogResult.Ok(SelectedFigures));
-
     private void Cancel() => MudDialog.Cancel();
 }
