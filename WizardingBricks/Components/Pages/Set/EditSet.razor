@@ -3,6 +3,7 @@
 @inject SetService SetService
 @inject NavigationManager Navigation
 @inject CategoryService CategoryService
+@inject IDialogService DialogService
 
 @if(Id is null){
 	<h1>Add A New Set</h1>
@@ -35,7 +36,7 @@ else{
 		<MudInputLabel>Instructions URL</MudInputLabel>
 		<MudTextField @bind-Value="CurrentSet.Instructions_URL" Variant="Variant.Text"/>
 	</MudItem>
-	<MudItem Class="my-3">
+	<MudItem Class="my-4">
 		<MudInputLabel>Categories</MudInputLabel>
 
 		<MudChipSet @bind-SelectedValues="categories" SelectionMode="SelectionMode.MultiSelection" CheckMark>
@@ -49,7 +50,7 @@ else{
 	<MudButton Color="Color.Primary" OnClick="SaveSet" Class="my-3">Save Set</MudButton>
 	@if(Id is not null)
 	{
-		<MudButton Color="Color.Primary" OnClick="DeleteSet" Class="my-3">Delete Set</MudButton>
+		<MudButton Color="Color.Primary" OnClick="OpenDeleteDialog" Class="my-3">Delete Set</MudButton>
 	}
 </MudPaper>
 
@@ -92,13 +93,24 @@ else{
 		Navigation.NavigateTo("/sets");
 	}
 
-	public async Task DeleteSet()
+	public async Task OpenDeleteDialog()
 	{
-		await SetService.DeleteSet(CurrentSet);
+		var options = new DialogOptions { CloseOnEscapeKey = true };
+		var parameters = new DialogParameters<ConfirmDialog>
+		{
+			{ x => x.ContentText, $"Do you really want to delete {CurrentSet.Name}? This process cannot be undone." },
+			{ x => x.ButtonText, "Delete" },
+			{ x => x.Color, Color.Error },
+		};
 
-		CurrentSet = new();
-		Navigation.NavigateTo("/sets");
+		var dialog = await DialogService.ShowAsync<ConfirmDialog>("Confirm Deletion", parameters, options);
+		var result = await dialog.Result;
 
+		if (!result.Canceled)
+		{
+			await SetService.DeleteSet(CurrentSet);
+			CurrentSet = new();
+			Navigation.NavigateTo("/sets");
+		}
 	}
-
 }
