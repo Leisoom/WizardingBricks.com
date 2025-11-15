@@ -1,8 +1,8 @@
-﻿
+﻿@inject NavigationManager Navigation
 <MudCard>
 	<MudCardHeader>
 		<CardHeaderContent>
-			<MudText Class="text-center">@Minifigure.Name</MudText>
+			<MudLink OnClick="NavigateToDetailsPage">@Minifigure.Name</MudLink>
 		</CardHeaderContent>
 	</MudCardHeader>
 
@@ -13,4 +13,9 @@
 
 	[Parameter]
 	public Minifigure Minifigure { get; set; }
+
+	public void NavigateToDetailsPage()
+	{
+		Navigation.NavigateTo("/minifigures/" + Minifigure!.Id);
+	}
 }

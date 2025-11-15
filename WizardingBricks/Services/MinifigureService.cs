@@ -7,7 +7,10 @@ public class MinifigureService(AppDbContext Context)
 {
     public async Task<Minifigure?> GetMinifigureAsync(int id)
     {
-        var result = await Context.Minifigures.FirstOrDefaultAsync(mf => mf.Id == id);
+        var result = await Context.Minifigures
+            .Include(x => x.Character)
+            .Include(x => x.Sets)
+            .FirstOrDefaultAsync(mf => mf.Id == id);
         return result;
     }
     public async Task<List<Minifigure>> GetMinifiguresAsync()

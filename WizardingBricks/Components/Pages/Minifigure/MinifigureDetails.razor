@@ -1,0 +1,42 @@
+﻿@page "/minifigures/{Id:int}"
+@inject MinifigureService MinifigureService
+
+@if(Minifigure is null){
+<h1>Minifigure is not found</h1>
+
+}
+else{
+	<h3>Minifigure Details</h3>
+	<MudText>@Minifigure.Name - @Minifigure.Number_Of_Parts</MudText>
+	<MudImage Src="@Minifigure.Preview_Image_URL" Width="800" />
+	<MudText>@Minifigure.Description</MudText>
+
+	<MudItem>
+		<MudText>Based on: @Minifigure.Character.Name</MudText>
+	</MudItem>
+	<MudItem>
+		<MudText>Sets Featured In</MudText>
+		@foreach(var set in @Minifigure.Sets)
+		{
+			<SetCard Set="set"/>
+		}
+	</MudItem>
+}
+
+@code {
+
+	[Parameter]
+	public int? Id { get; set; }
+
+	public Minifigure Minifigure { get; set; } = null!;
+
+	protected override async Task OnInitializedAsync()
+	{
+		var res = await MinifigureService.GetMinifigureAsync((int)Id);
+
+		if(res is not null)
+		{
+			Minifigure = res;
+		}
+	}
+}

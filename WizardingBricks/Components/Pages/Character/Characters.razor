@@ -1,11 +1,11 @@
 ﻿@page "/characters"
 @inject CharacterService CharacterService
-
+@inject NavigationManager Navigation
 <h3>Characters</h3>
 
 @foreach(var character in CharacterList)
 {
-	<MudText>@character.Name</MudText>
+	<MudLink OnClick="() => NavigateToDetailsPage(character.Id)">@character.Name</MudLink>
 	@foreach(var minifigure in character.Minifigures)
 	{
 		<MudChip Color="Color.Primary" T="string">@minifigure.Name</MudChip>
@@ -20,4 +20,6 @@
 	{
 		CharacterList = await CharacterService.GetCharactersAsync();
 	}
+
+	public void NavigateToDetailsPage(int id) => Navigation.NavigateTo("/characters/" + id);
 }

@@ -1,0 +1,31 @@
+﻿@page "/characters/{Id:int}"
+@inject CharacterService CharacterService
+
+<h3>CharacterDetails</h3>
+
+@if(Character is null)
+{
+	
+}
+else
+{
+	@Character.Name
+}
+
+@code {
+
+	[Parameter]
+	public int? Id { get; set; }
+	public Character Character { get; set; } = null!;
+
+	protected override async Task OnInitializedAsync()
+	{
+		var res = await CharacterService.GetCharacterAsync((int)Id);
+
+		if(res is not null)
+		{
+			Character = res;
+		}
+	}
+
+}
