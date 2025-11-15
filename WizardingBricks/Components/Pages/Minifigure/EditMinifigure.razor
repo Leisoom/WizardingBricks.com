@@ -1,0 +1,51 @@
+﻿@page "/edit-minifigure"
+@inject MinifigureService MinifigureService
+@inject CharacterService CharacterService
+@inject NavigationManager Navigation
+
+<h3>EditMinifigure</h3>
+<MudPaper class="pa-5 my-2" Outlined Width="80%">
+	<MudItem Class="my-3">
+		<MudInputLabel>Name</MudInputLabel>
+		<MudTextField @bind-Value="Minifigure.Name" Variant="Variant.Text" />
+	</MudItem>
+	<MudItem Class="my-3">
+		<MudInputLabel>Description</MudInputLabel>
+		<MudTextField @bind-Value="Minifigure.Description" Variant="Variant.Text" />
+	</MudItem>
+	<MudItem Class="my-3">
+		<MudInputLabel>Character</MudInputLabel>
+		<MudSelect T="string" @bind-Value="_selected">
+				@foreach (var character in CharacterList)
+			{
+				<MudSelectItem T="string" Value="@character.Name" >
+					@character.Name
+				</MudSelectItem>
+			}
+		</MudSelect>
+	</MudItem>
+	<MudButton Color="Color.Primary" OnClick="SaveMinifigure" Class="my-3">Save Set</MudButton>
+</MudPaper>
+@code {
+
+	public Minifigure Minifigure { get; set; } = new();
+	public List<Character> CharacterList { get; set; } = [];
+	public string? _selected { get; set; }
+
+
+	protected async override Task OnInitializedAsync()
+	{
+		CharacterList = await CharacterService.GetCharactersAsync();
+	}
+
+	public async Task SaveMinifigure()
+	{
+
+		var character = CharacterList.First(c => c.Name == _selected);
+
+		Minifigure.Character = character;
+
+		await MinifigureService.AddMinifigure(Minifigure);
+		Navigation.NavigateTo("/minifigures");
+	}
+}

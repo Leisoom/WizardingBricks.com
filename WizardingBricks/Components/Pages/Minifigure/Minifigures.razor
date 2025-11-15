@@ -1,0 +1,24 @@
+﻿@page "/minifigures"
+@inject MinifigureService MinifigureService
+
+<h3>Minifigures</h3>
+
+@foreach(var mf in MinifigureList)
+{
+	<MudCard>
+		<MudCardContent>
+			<MudText>@mf.Name</MudText>
+			<MudText>@mf.Description</MudText>
+
+		</MudCardContent>
+	</MudCard>
+}
+
+@code {
+	public List<Minifigure> MinifigureList { get; set; } = [];
+
+	protected async override Task OnInitializedAsync()
+	{
+		MinifigureList = await MinifigureService.GetMinifiguresAsync();
+	}
+}

@@ -20,6 +20,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddScoped<SetService>();
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<CharacterService>();
+builder.Services.AddScoped<MinifigureService>();
 
 var app = builder.Build();
 

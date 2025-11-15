@@ -1,0 +1,19 @@
+﻿@page "/characters"
+@inject CharacterService CharacterService
+
+<h3>Characters</h3>
+
+@foreach(var character in CharacterList)
+{
+	<MudText>@character.Name</MudText>
+	<MudDivider/>
+}
+
+@code {
+	public List<Character> CharacterList {get; set; } = [];
+
+	protected async override Task OnInitializedAsync()
+	{
+		CharacterList = await CharacterService.GetCharactersAsync();
+	}
+}

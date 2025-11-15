@@ -9,24 +9,12 @@
         <MudNavLink Href="categories" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Category List</MudNavLink>
         <MudNavLink Href="edit-category" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Add Category</MudNavLink>
     </MudNavGroup>
-    <MudNavGroup Title="Books / Movies" Expanded>
-        <MudNavLink OnClick="() => Navigate(1)" Match="NavLinkMatch.All">Philosopher's Stone</MudNavLink>
-        <MudNavLink OnClick="() => Navigate(2)" Match="NavLinkMatch.Prefix">Chamber of Secrets</MudNavLink>
-        <MudNavLink OnClick="() => Navigate(3)" Match="NavLinkMatch.Prefix">Prisoner of Azkaban</MudNavLink>
-        <MudNavLink OnClick="() => Navigate(4)" Match="NavLinkMatch.Prefix">Goblet of Fire</MudNavLink>
-        <MudNavLink OnClick="() => Navigate(5)" Match="NavLinkMatch.Prefix">Order of the Phoenix</MudNavLink>
-        <MudNavLink OnClick="() => Navigate(6)" Match="NavLinkMatch.Prefix">Half-Blood Prince</MudNavLink>
-        <MudNavLink OnClick="() => Navigate(7)" Match="NavLinkMatch.Prefix">Deathly Hallows</MudNavLink>
-
+    <MudNavGroup Title="Characters" Expanded>
+        <MudNavLink Href="characters" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Character List</MudNavLink>
+        <MudNavLink Href="edit-character" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Add Character</MudNavLink>
+    </MudNavGroup>
+    <MudNavGroup Title="Minifigures" Expanded>
+        <MudNavLink Href="minifigures" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Minifigure List</MudNavLink>
+        <MudNavLink Href="edit-minifigure" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Add Minifigure</MudNavLink>
     </MudNavGroup>
 </MudNavMenu>
-
-@code{
-
-    public void Navigate(int categoryId)
-    {
-        Navigation.NavigateTo("/categories/" + categoryId, forceLoad: true);
-    }
-
-}
-
