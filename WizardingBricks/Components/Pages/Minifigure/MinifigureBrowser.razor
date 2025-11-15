@@ -5,18 +5,18 @@
         Minifigure Browser
     </TitleContent>
     <DialogContent>
-        @SelectedFigures.Count
         <MudGrid>
             @foreach (var mf in MinifigureList)
             {
-                <MudButton xs="2" OnClick="() => AddToSelection(mf)">
-                    <MudPaper >
+                <MudButton xs="2" OnClick="() => AddToSelection(mf)" Style="@(isSelected(mf) ? "background: blue;" : "background: red;")">
+                    <MudPaper>
 
                         <MinifigureCard Minifigure="mf" />
                     </MudPaper>
                 </MudButton>
             }
         </MudGrid>
+        <MudText> @SelectedFigures.Count Minifigures(s) Selected</MudText>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -45,6 +45,8 @@
         }
 
     }
+
+    public bool isSelected(Minifigure mf) => SelectedFigures.Contains(mf);
 
     private void Submit() => MudDialog.Close(DialogResult.Ok(SelectedFigures));
 
