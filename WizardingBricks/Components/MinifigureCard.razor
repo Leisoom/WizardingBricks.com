@@ -14,8 +14,5 @@
 	[Parameter]
 	public Minifigure Minifigure { get; set; }
 
-	public void NavigateToDetailsPage()
-	{
-		Navigation.NavigateTo("/minifigures/" + Minifigure!.Id);
-	}
+	public void NavigateToDetailsPage() => Navigation.NavigateTo("/minifigures/" + Minifigure!.Id);
 }

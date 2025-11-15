@@ -19,12 +19,7 @@
 	[Parameter]
 	public Set Set { get; set; } = null!;
 
-	public void NavigateToEditPage()
-	{
-		Navigation.NavigateTo("/edit-set/" + Set.Id);
-	}
-	public void NavigateToDetailPage(int Id)
-	{
-		Navigation.NavigateTo("/sets/" + Set.Id);
-	}
+	public void NavigateToEditPage() => Navigation.NavigateTo("/edit-set/" + Set.Id);
+	public void NavigateToDetailPage(int Id) => Navigation.NavigateTo("/sets/" + Set.Id);
+
 }
