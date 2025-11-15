@@ -10,4 +10,5 @@ public class Set
     public string? Instructions_URL { get; set; }
 
     public ICollection<Category> Categories { get; set; } = [];
+    public ICollection<Minifigure> Minifigures { get; set; } = [];
 }
