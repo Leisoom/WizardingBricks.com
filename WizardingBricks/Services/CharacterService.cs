@@ -7,7 +7,10 @@ public class CharacterService(AppDbContext Context)
 {
     public async Task<Character?> GetCharacterAsync(int id)
     {
-        var result = await Context.Characters.FirstOrDefaultAsync(c => c.Id == id);
+        var result = await Context.Characters
+            .Include(c => c.Minifigures)
+            .Include(c => c.Categories)
+            .FirstOrDefaultAsync(c => c.Id == id);
         return result;
     }
     public async Task<List<Character>> GetCharactersAsync()

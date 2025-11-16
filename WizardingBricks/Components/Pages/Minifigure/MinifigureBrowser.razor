@@ -8,10 +8,10 @@
         <MudGrid>
             @foreach (var mf in MinifigureList)
             {
-            <MudItem xs="2" Class="mx-3">
+            <MudItem xs="3" Class="mx-3">
                 <MudButton OnClick="() => AddToSelection(mf)" Style="@(isSelected(mf) ? "background: green;" : "background: red;")">
                     <MudPaper>
-                        <MinifigureCard Minifigure="mf" />
+                        <MinifigureCard Minifigure="mf" Width="250" />
                     </MudPaper>
                 </MudButton>
             </MudItem>   

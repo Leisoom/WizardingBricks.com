@@ -16,7 +16,9 @@ public class SetService(AppDbContext Context)
 
     public async Task<List<Set>> GetSetList()
     {
-        var list = await Context.Sets.ToListAsync();
+        var list = await Context.Sets
+            .Include(s => s.Minifigures)
+            .ToListAsync();
         return list;
     }
 

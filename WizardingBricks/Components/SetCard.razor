@@ -1,16 +1,10 @@
 ﻿@inject NavigationManager Navigation
 
-<MudCard Class=" pa-3">
-	<MudCardHeader Class="mb-n6">
-		<CardHeaderContent>
-			<MudLink Color="Color.Inherit" OnClick="NavigateToDetailPage" Typo="Typo.h6">@Set.Name - @Set.Year</MudLink>
-		</CardHeaderContent>
-	</MudCardHeader>
-	<MudCardContent>
-		<MudImage Src="@Set.Preview_Image_URL"  />
+<MudCard Class="pa-3" Outlined Style="width:350px;" Square>
+	<MudCardContent Class="align-self-center">
+		<MudImage ObjectFit="ObjectFit.Contain" Src="@Set.Preview_Image_URL" Width="300" />
+		<MudLink Color="Color.Inherit" OnClick="NavigateToDetailPage" Typo="Typo.body1">@Set.Name</MudLink>
 	</MudCardContent>
-	<MudCardActions>
-	</MudCardActions>
 </MudCard>
 
 @code {

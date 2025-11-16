@@ -1,15 +1,33 @@
 ﻿@page "/characters/{Id:int}"
 @inject CharacterService CharacterService
-
-<h3>CharacterDetails</h3>
+@inject SetService SetService
 
 @if(Character is null)
 {
-	
+	<h1>Character Not Found</h1>
+
 }
 else
 {
-	@Character.Name
+	<h1>@Character.Name</h1>
+	<MudText>Minifigures Featured In: </MudText>
+	<MudGrid>
+		@foreach (var mf in @Character.Minifigures)
+		{
+			<MudItem xs="2">
+				<MinifigureCard Minifigure="mf" />
+			</MudItem>
+		}
+	</MudGrid>
+	<MudText>Sets Featured In: </MudText>
+	<MudGrid>
+	@foreach(var set in Sets)
+	{
+		<MudItem>
+			<SetCard Set="set" />
+		</MudItem>
+	}
+	</MudGrid>
 }
 
 @code {
@@ -17,6 +35,7 @@ else
 	[Parameter]
 	public int? Id { get; set; }
 	public Character Character { get; set; } = null!;
+	public HashSet<Set> Sets { get; set; } = [];
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -25,7 +44,16 @@ else
 		if(res is not null)
 		{
 			Character = res;
+			var setList = await SetService.GetSetList();
+
+			foreach(var mf in Character.Minifigures)
+			{
+				Sets.UnionWith(setList.Where(s => s.Minifigures.Contains(mf)).ToHashSet());
+			}
+
 		}
 	}
+
+
 
 }
