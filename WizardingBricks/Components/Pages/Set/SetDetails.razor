@@ -10,10 +10,10 @@ else
 {
 	<h1 class="mb-3"> @Set.Name</h1>
 	<MudGrid>
-		<MudItem xs="12" lg="6">
+		<MudItem>
 			<MudImage Src="@Set.Preview_Image_URL" Width="700"/>
 		</MudItem>
-		<MudItem xs="12" lg="6" class="justify-self-end">
+		<MudItem class="justify-self-end">
 			<MudText Typo="Typo.h5">Set Number: @Set.Set_Number </MudText>
 			<MudDivider Class="mb-3"/>
 			<MudText Typo="Typo.h5">Year Released: @Set.Year </MudText>
@@ -37,7 +37,7 @@ else
 			<MudGrid>
 				@foreach (var mf in Set.Minifigures)
 				{
-					<MudItem xs="2">
+					<MudItem >
 						<MinifigureCard Minifigure="mf" />
 					</MudItem>
 				}

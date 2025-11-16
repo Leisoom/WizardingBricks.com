@@ -7,26 +7,35 @@
 
 }
 else{
-	<h1>@Minifigure.Name - @Minifigure.Number_Of_Parts</h1>
-	@if (Minifigure.Character is not null)
-	{
+	<h1 class="mb-3">@Minifigure.Name.ToUpper()</h1>
+
+	<MudGrid>
 		<MudItem>
-			<MudText>Based on: <MudLink OnClick="() => NavigateToCharacterPage(Minifigure.Character)">@Minifigure.Character.Name</MudLink></MudText>
+			<MudImage Src="@Minifigure.Preview_Image_URL" Width="700" />
 		</MudItem>
-	}
-	<MudImage Src="@Minifigure.Preview_Image_URL" Width="700" />
-	<MudText>@Minifigure.Description</MudText>
-	<MudItem>
-		<MudText>Sets Featured In</MudText>
-		<MudGrid>
-			@foreach (var set in @Minifigure.Sets)
+		<MudItem>
+			@if (Minifigure.Character is not null)
 			{
-				<MudItem>
-					<SetCard Set="set" />
-				</MudItem>
+				<MudText Typo="Typo.h5">Based on: <MudLink Typo="Typo.h5" OnClick="() => NavigateToCharacterPage(Minifigure.Character)">@Minifigure.Character.Name</MudLink></MudText>
+				<MudDivider Class="mb-3" />
 			}
-		</MudGrid>
-	</MudItem>
+			<MudText Typo="Typo.h5">Description: @Minifigure.Description</MudText>
+			<MudDivider Class="mb-3" />
+			<MudText Typo="Typo.h5">Number Of Parts: @Minifigure.Number_Of_Parts</MudText>
+			<MudDivider Class="mb-3" />
+		</MudItem>
+		<MudItem>
+			<MudText Typo="Typo.h5">Sets Featured In</MudText>
+			<MudGrid>
+				@foreach (var set in @Minifigure.Sets)
+				{
+					<MudItem>
+						<SetCard Set="set" />
+					</MudItem>
+				}
+			</MudGrid>
+		</MudItem>
+	</MudGrid>
 }
 
 @code {
