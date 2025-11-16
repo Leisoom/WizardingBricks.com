@@ -1,29 +1,31 @@
 ﻿@page "/minifigures/{Id:int}"
 @inject MinifigureService MinifigureService
+@inject NavigationManager Navigation
 
 @if(Minifigure is null){
 <h1>Minifigure is not found</h1>
 
 }
 else{
-	<h1>Minifigure Details</h1>
-	<MudText>@Minifigure.Name - @Minifigure.Number_Of_Parts</MudText>
-	<MudImage Src="@Minifigure.Preview_Image_URL" Width="800" />
-	<MudText>@Minifigure.Description</MudText>
-
-	@if(Minifigure.Character is not null)
+	<h1>@Minifigure.Name - @Minifigure.Number_Of_Parts</h1>
+	@if (Minifigure.Character is not null)
 	{
 		<MudItem>
-			<MudText>Based on: @Minifigure.Character.Name</MudText>
+			<MudText>Based on: <MudLink OnClick="() => NavigateToCharacterPage(Minifigure.Character)">@Minifigure.Character.Name</MudLink></MudText>
 		</MudItem>
 	}
-
+	<MudImage Src="@Minifigure.Preview_Image_URL" Width="700" />
+	<MudText>@Minifigure.Description</MudText>
 	<MudItem>
 		<MudText>Sets Featured In</MudText>
-		@foreach(var set in @Minifigure.Sets)
-		{
-			<SetCard Set="set"/>
-		}
+		<MudGrid>
+			@foreach (var set in @Minifigure.Sets)
+			{
+				<MudItem>
+					<SetCard Set="set" />
+				</MudItem>
+			}
+		</MudGrid>
 	</MudItem>
 }
 
@@ -43,4 +45,6 @@ else{
 			Minifigure = res;
 		}
 	}
+
+	public void NavigateToCharacterPage(Character character) => Navigation.NavigateTo("/characters/" + character.Id);
 }
