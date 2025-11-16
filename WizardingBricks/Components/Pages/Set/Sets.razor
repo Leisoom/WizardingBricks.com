@@ -4,9 +4,9 @@
 <h1>List of Sets</h1>	
 
 <MudGrid>
-	@foreach(Set i in SetList) {
-		<MudItem xs="12" sm="6" lg="3">
-			<SetCard Set="i"/>
+	@foreach(Set set in SetList) {
+		<MudItem>
+			<SetCard Set="set"/>
 		</MudItem>
 	}
 </MudGrid>

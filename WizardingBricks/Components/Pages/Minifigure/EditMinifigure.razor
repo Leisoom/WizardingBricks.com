@@ -1,4 +1,5 @@
 ﻿@page "/edit-minifigure"
+@page "/edit-minifigure/{Id:int}"
 @inject MinifigureService MinifigureService
 @inject CharacterService CharacterService
 @inject NavigationManager Navigation
@@ -36,6 +37,8 @@
 </MudPaper>
 @code {
 
+	[Parameter]
+	public int? Id { get; set; }
 	public Minifigure Minifigure { get; set; } = new();
 	public List<Character> CharacterList { get; set; } = [];
 	public string? _selected { get; set; }
@@ -43,20 +46,40 @@
 
 	protected async override Task OnInitializedAsync()
 	{
+		if(Id is not null)
+		{
+			var result = await MinifigureService.GetMinifigureAsync(Id.Value);
+
+			if (result is not null)
+			{
+				Minifigure = result;
+				if(Minifigure.Character is not null)
+				{
+					_selected = Minifigure.Character.Name;
+				}
+			}
+		}
+
 		CharacterList = await CharacterService.GetCharactersAsync();
 	}
 
 	public async Task SaveMinifigure()
 	{
-
-		if(_selected is not null)
+		if (_selected is not null)
 		{
 			var character = CharacterList.First(c => c.Name == _selected);
 
 			Minifigure.Character = character;
 		}
+		if(Id is not null)
+		{
+			await MinifigureService.UpdateMinifigure(Minifigure);
+		}
+		else
+		{
+			await MinifigureService.AddMinifigure(Minifigure);
+		}
 
-		await MinifigureService.AddMinifigure(Minifigure);
 		Navigation.NavigateTo("/minifigures");
 	}
 }

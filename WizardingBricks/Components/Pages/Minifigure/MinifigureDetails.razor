@@ -19,12 +19,15 @@ else{
 				<MudText Typo="Typo.h5">Based on: <MudLink Typo="Typo.h5" OnClick="() => NavigateToCharacterPage(Minifigure.Character)">@Minifigure.Character.Name</MudLink></MudText>
 				<MudDivider Class="mb-3" />
 			}
-			<MudText Typo="Typo.h5" Style="">Description: @Minifigure.Description</MudText>
+			<MudText Typo="Typo.h5" Style="">Description:</MudText>
+			<MudText Typo="Typo.body1">@Minifigure.Description</MudText>
 			<MudDivider Class="mb-3" />
 			<MudText Typo="Typo.h5">Number Of Parts: @Minifigure.Number_Of_Parts</MudText>
 			<MudDivider Class="mb-3" />
+			<MudButton Variant="Variant.Filled" Color="Color.Primary" class="mx-3" Target="_blank" OnClick="NavigateToEditPage">Edit</MudButton>
+
 		</MudItem>
-		<MudItem>
+		<MudItem xs="12">
 			@if(Minifigure.Sets.Count != 0)
 			{
 				<MudText Typo="Typo.h5">Sets Featured In</MudText>
@@ -50,13 +53,13 @@ else{
 
 	protected override async Task OnInitializedAsync()
 	{
-		var res = await MinifigureService.GetMinifigureAsync((int)Id);
+		var res = await MinifigureService.GetMinifigureAsync((int)Id!);
 
 		if(res is not null)
 		{
 			Minifigure = res;
 		}
 	}
-
+	public void NavigateToEditPage() => Navigation.NavigateTo("/edit-minifigure/" + Minifigure.Id);
 	public void NavigateToCharacterPage(Character character) => Navigation.NavigateTo("/characters/" + character.Id);
 }

@@ -110,7 +110,7 @@ else{
         var dialog = await DialogService.ShowAsync<ConfirmDialog>("Confirm Deletion", parameters, options);
         var result = await dialog.Result;
 
-        if (!result.Canceled)
+        if (result is not null && !result.Canceled)
         {
             await SetService.DeleteSet(CurrentSet);
             CurrentSet = new();
