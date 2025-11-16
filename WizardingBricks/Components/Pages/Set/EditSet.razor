@@ -128,7 +128,7 @@ else{
         IDialogReference? dialog = await DialogService.ShowAsync<MinifigureBrowser>("Minifigure Browser", parameters, options);
         DialogResult? result = await dialog.Result;
   
-        if (!result.Canceled)
+        if (result is not null && !result.Canceled)
         {
             var minifigures = (HashSet<Minifigure>)result.Data!; 
             CurrentSet.Minifigures = minifigures.ToList();

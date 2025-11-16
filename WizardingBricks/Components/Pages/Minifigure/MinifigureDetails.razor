@@ -19,13 +19,16 @@ else{
 				<MudText Typo="Typo.h5">Based on: <MudLink Typo="Typo.h5" OnClick="() => NavigateToCharacterPage(Minifigure.Character)">@Minifigure.Character.Name</MudLink></MudText>
 				<MudDivider Class="mb-3" />
 			}
-			<MudText Typo="Typo.h5">Description: @Minifigure.Description</MudText>
+			<MudText Typo="Typo.h5" Style="">Description: @Minifigure.Description</MudText>
 			<MudDivider Class="mb-3" />
 			<MudText Typo="Typo.h5">Number Of Parts: @Minifigure.Number_Of_Parts</MudText>
 			<MudDivider Class="mb-3" />
 		</MudItem>
 		<MudItem>
-			<MudText Typo="Typo.h5">Sets Featured In</MudText>
+			@if(Minifigure.Sets.Count != 0)
+			{
+				<MudText Typo="Typo.h5">Sets Featured In</MudText>
+			}
 			<MudGrid>
 				@foreach (var set in @Minifigure.Sets)
 				{

@@ -9,8 +9,8 @@
 }
 else
 {
-	<h1>@Character.Name</h1>
-	<MudText>Minifigures Featured In: </MudText>
+	<h1 class="mb-3">@Character.Name</h1>
+	<MudText Typo="Typo.h5">Minifigures Featured In: </MudText>
 	<MudGrid>
 		@foreach (var mf in @Character.Minifigures)
 		{
@@ -19,7 +19,7 @@ else
 			</MudItem>
 		}
 	</MudGrid>
-	<MudText>Sets Featured In: </MudText>
+	<MudText Typo="Typo.h5">Sets Featured In: </MudText>
 	<MudGrid>
 	@foreach(var set in Sets)
 	{
@@ -39,21 +39,19 @@ else
 
 	protected override async Task OnInitializedAsync()
 	{
-		var res = await CharacterService.GetCharacterAsync((int)Id);
-
-		if(res is not null)
+		if(Id is not null)
 		{
-			Character = res;
-			var setList = await SetService.GetSetList();
-
-			foreach(var mf in Character.Minifigures)
+			var res = await CharacterService.GetCharacterAsync(Id.Value);
+			if (res is not null)
 			{
-				Sets.UnionWith(setList.Where(s => s.Minifigures.Contains(mf)).ToHashSet());
-			}
+				Character = res;
+				var setList = await SetService.GetSetList();
 
+				foreach (var mf in Character.Minifigures)
+				{
+					Sets.UnionWith(setList.Where(s => s.Minifigures.Contains(mf)).ToHashSet());
+				}
+			}
 		}
 	}
-
-
-
 }

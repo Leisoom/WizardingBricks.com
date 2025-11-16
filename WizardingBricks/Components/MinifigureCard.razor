@@ -1,13 +1,13 @@
 ﻿@inject NavigationManager Navigation
 <MudCard Class="pa-3" Outlined Style="@($"width:{Width}px;")" Square>
 	<MudImage Class="align-self-center" Src="@Minifigure.Preview_Image_URL" Width="GetImageWidth()" />
-	<MudText Class="cursor-pointer mx-auto my-2" @onclick="NavigateToDetailsPage">@Minifigure.Name</MudText>
+	<MudLink Color="Color.Inherit" Class="mx-auto my-2" @onclick="NavigateToDetailsPage">@Minifigure.Name</MudLink>
 </MudCard>
 
 @code {
 
 	[Parameter]
-	public Minifigure Minifigure { get; set; }
+	public Minifigure Minifigure { get; set; } = null!;
 
 	[Parameter]
 	public int Width { get; set; } = 350;

@@ -9,10 +9,14 @@ else
 {
 	<h1> @Category.Name</h1>
 	<MudText>@Category.Color </MudText>
-	@foreach(Set set in Category.Sets)
-	{
-		<SetCard Set="set"/>
-	}
+	<MudGrid>
+		@foreach (Set set in Category.Sets)
+		{
+			<MudItem>
+				<SetCard Set="set" />
+			</MudItem>
+		}
+	</MudGrid>
 }
 
 @code {

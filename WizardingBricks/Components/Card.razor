@@ -1,0 +1,22 @@
+﻿
+<MudButton OnClick="HandleClickEvent" Style="@($"width:{Width}px; height:{Height}px; padding: 0 !important;")">
+	<MudCard Style="@($"width:{Width}px; height:{Height}px;")" Outlined>
+		@Content
+	</MudCard>
+</MudButton>
+
+@code {
+	[Parameter]
+	public int Width { get; set; } = 350;
+	[Parameter]
+	public int Height { get; set; } = 350;
+	[Parameter]
+	public RenderFragment Content { get; set; }
+	[Parameter]
+	public EventCallback OnCardClicked { get; set; }
+
+	public async Task HandleClickEvent()
+	{
+		await OnCardClicked.InvokeAsync();
+	}
+}
