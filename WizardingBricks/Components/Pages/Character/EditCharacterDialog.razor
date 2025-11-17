@@ -1,0 +1,34 @@
+﻿@inject CharacterService CharacterService
+@inject NavigationManager Navigation
+
+	<MudDialog>
+		<TitleContent>
+		<h3>Edit Character</h3>
+		</TitleContent>
+		<DialogContent>
+			<MudItem Class="my-3">
+				<MudInputLabel>Character Name</MudInputLabel>
+			<MudTextField @bind-Value="Character.Name" Variant="Variant.Text" />
+			</MudItem>
+
+		</DialogContent>
+		<DialogActions>
+			<MudButton Color="Color.Primary" OnClick="Cancel" Class="my-3">Cancel</MudButton>
+			<MudButton Color="Color.Primary" OnClick="SaveCharacter" Class="my-3">Save Character</MudButton>
+		</DialogActions>
+	</MudDialog>
+@code {
+	[CascadingParameter]
+	private IMudDialogInstance MudDialog { get; set; } = null!;
+	[Parameter]
+	public Character Character { get; set; } = new();
+
+	private void Cancel() => MudDialog.Cancel();
+
+	public async Task SaveCharacter()
+	{
+		await CharacterService.AddCharacter(Character);
+		MudDialog.Close(DialogResult.Ok(true));
+	}
+
+}

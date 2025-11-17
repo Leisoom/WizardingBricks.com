@@ -15,7 +15,10 @@ public class CharacterService(AppDbContext Context)
     }
     public async Task<List<Character>> GetCharactersAsync()
     {
-        return await Context.Characters.Include(c => c.Minifigures).ToListAsync();
+        return await Context.Characters
+            .Include(c => c.Minifigures)
+            .Include(c => c.Categories)
+            .ToListAsync();
     }
 
     public async Task AddCharacter(Character character)

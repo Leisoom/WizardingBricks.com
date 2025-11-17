@@ -5,19 +5,17 @@
         Minifigure Browser
     </TitleContent>
     <DialogContent>
-        <MudGrid>
-            @foreach (var mf in MinifigureList)
-            {
-            <MudItem xs="3" Class="mx-3">
-                <MudButton OnClick="() => AddToSelection(mf)" Style="@(isSelected(mf) ? "background: green;" : "background: red;")">
-                    <MudPaper>
-                        <MinifigureCard Minifigure="mf" Width="250" />
-                    </MudPaper>
-                </MudButton>
-            </MudItem>   
-            }
-        </MudGrid>
-        <MudText Class="my-2 text-bold"> @SelectedFigures.Count Minifigures(s) Selected</MudText>
+            <MudGrid>
+                @foreach (var mf in MinifigureList)
+                {
+                    <MudItem Class="mx-3">
+                    <MudButton OnClick="() => AddToSelection(mf)" Style="@(isSelected(mf) ? "border: solid 1px white; padding: 0 !important;" : "border: none; padding: 0 !important;")">
+                                <MinifigureCard Minifigure="mf" />
+                        </MudButton>
+                    </MudItem>
+                }
+            </MudGrid>
+        <MudText Class="my-3"> @SelectedFigures.Count Minifigures(s) Selected</MudText>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>

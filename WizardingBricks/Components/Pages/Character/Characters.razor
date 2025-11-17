@@ -1,15 +1,17 @@
 ﻿@page "/characters"
 @inject CharacterService CharacterService
 @inject NavigationManager Navigation
-<h3>Characters</h3>
+@inject IDialogService DialogService
 
+<h1>Characters</h1>
+
+<MudButton Class="mb-3" OnClick="OpenAddCharacterDialog" Variant="Variant.Filled" Color="Color.Primary">
+	Add Character
+</MudButton>
+<MudSpacer />
 @foreach(var character in CharacterList)
 {
-	<MudLink OnClick="() => NavigateToDetailsPage(character.Id)">@character.Name</MudLink>
-	@foreach(var minifigure in character.Minifigures)
-	{
-		<MudChip Color="Color.Primary" T="string">@minifigure.Name</MudChip>
-	}
+	<MudLink Typo="Typo.h5" OnClick="() => NavigateToDetailsPage(character.Id)">@character.Name</MudLink>
 	<MudDivider/>
 }
 
@@ -22,4 +24,21 @@
 	}
 
 	public void NavigateToDetailsPage(int id) => Navigation.NavigateTo("/characters/" + id);
+
+	private async Task OpenAddCharacterDialog()
+	{
+		var options = new DialogOptions { CloseOnEscapeKey = true };
+		var parameters = new DialogParameters<EditCharacterDialog>
+		{
+			{x => x.Character, new()}
+		};
+
+		var dialog = await DialogService.ShowAsync<EditCharacterDialog>("Simple Dialog", parameters, options);
+		var result = await dialog.Result;
+
+		if(result is not null && !result.Canceled)
+		{
+			Navigation.NavigateTo(Navigation.Uri, true);
+		}
+	}
 }

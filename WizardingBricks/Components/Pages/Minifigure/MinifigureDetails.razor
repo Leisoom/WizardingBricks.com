@@ -11,7 +11,7 @@ else{
 
 	<MudGrid>
 		<MudItem>
-			<MudImage Src="@Minifigure.Preview_Image_URL" Width="700" />
+			<MudImage Src="@Minifigure.Preview_Image_URL" Width="600" />
 		</MudItem>
 		<MudItem>
 			@if (Minifigure.Character is not null)
@@ -25,7 +25,6 @@ else{
 			<MudText Typo="Typo.h5">Number Of Parts: @Minifigure.Number_Of_Parts</MudText>
 			<MudDivider Class="mb-3" />
 			<MudButton Variant="Variant.Filled" Color="Color.Primary" class="mx-3" Target="_blank" OnClick="NavigateToEditPage">Edit</MudButton>
-
 		</MudItem>
 		<MudItem xs="12">
 			@if(Minifigure.Sets.Count != 0)
