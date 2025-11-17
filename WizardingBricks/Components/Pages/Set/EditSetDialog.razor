@@ -3,19 +3,17 @@
 @inject CategoryService CategoryService
 @inject IDialogService DialogService
 
-
 <MudDialog>
     <TitleContent>
         @if (Set.Id == 0)
         {
-            <h1>Add A New Set</h1>
+            <h1>Add New Set</h1>
         }
         else
         {
             <h1>Edit Set: @Set.Name</h1>
         }
     </TitleContent>
-
     <DialogContent>
         <MudItem Class="my-3">
             <MudInputLabel>Set Number</MudInputLabel>
@@ -43,17 +41,14 @@
         </MudItem>
         <MudItem Class="my-4">
             <MudInputLabel>Categories</MudInputLabel>
-
             <MudChipSet @bind-SelectedValues="categories" SelectionMode="SelectionMode.MultiSelection" CheckMark>
                 @foreach (Category category in CategoryList)
                 {
                     <MudChip Value="category" Text="@category.Name" Style="@($"background:{category.Color};")" />
                 }
-
             </MudChipSet>
         </MudItem>
     </DialogContent>
-	
     <DialogActions>
         <MudButton Color="Color.Primary" OnClick="SaveSet" Class="my-3">Save Set</MudButton>
         @if (Set.Id != 0)
@@ -65,7 +60,6 @@
             Edit Minifigures
         </MudButton>
     </DialogActions>
-	
 </MudDialog>
 
 @code {
@@ -79,7 +73,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-
         categories = new ReadOnlyCollection<Category>(Set.Categories.ToList());
         CategoryList = await CategoryService.GetCategoriesAsync();
     }
@@ -97,7 +90,6 @@
             await SetService.AddSet(Set);
         }
 
-        Set = new();
         MudDialog.Close(DialogResult.Ok(true));
     }
 

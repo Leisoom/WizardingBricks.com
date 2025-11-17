@@ -7,13 +7,12 @@
 @if(Character is null)
 {
 	<h1>Character Not Found</h1>
-
 }
 else
 {
 	<h1 class="mb-3">@Character.Name 
 		<MudIcon Color="Color.Primary" Class="cursor-pointer" @onclick="OpenEditCharacterDialog" Icon="@Icons.Material.Filled.Edit" />
-		<MudIcon Color="Color.Primary" Class="cursor-pointer" @onclick="OpenDeleteDialog" Icon="@Icons.Material.Filled.Close" />
+		<MudIcon Color="Color.Primary" Class="cursor-pointer" @onclick="DeleteCharacter" Icon="@Icons.Material.Filled.Close" />
 	</h1>
 	@if(Character.Minifigures.Count > 0)
 	{
@@ -66,25 +65,10 @@ else
 		}
 	}
 
-	public async Task OpenDeleteDialog()
+	public async Task DeleteCharacter()
 	{
-		var options = new DialogOptions { CloseOnEscapeKey = true };
-		var parameters = new DialogParameters<ConfirmDialog>
-		{
-			{ x => x.ContentText, $"Do you really want to delete {Character.Name}? This process cannot be undone." },
-			{ x => x.ButtonText, "Delete" },
-			{ x => x.Color, Color.Error },
-		};
-
-		var dialog = await DialogService.ShowAsync<ConfirmDialog>("Confirm Deletion", parameters, options);
-		var result = await dialog.Result;
-
-		if (result is not null && !result.Canceled)
-		{
-			await CharacterService.DeleteCharacter(Character);
-			Character = new();
-			Navigation.NavigateTo("/characters");
-		}
+		await CharacterService.DeleteCharacter(Character);
+		Navigation.NavigateTo("/characters");
 	}
 
 	public async Task OpenEditCharacterDialog()
