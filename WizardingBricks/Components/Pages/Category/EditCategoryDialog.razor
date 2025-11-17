@@ -1,0 +1,46 @@
+﻿
+@inject CategoryService CategoryService
+@inject NavigationManager Navigation
+
+<MudDialog>
+	<TitleContent>
+		<h3>Add Category</h3>
+	</TitleContent>
+	<DialogContent>
+		<MudItem Class="my-3">
+			<MudInputLabel>Name</MudInputLabel>
+			<MudTextField @bind-Value="Category.Name" Variant="Variant.Text" />
+		</MudItem>
+		<MudItem Class="my-3">
+			<MudInputLabel>Color</MudInputLabel>
+			<MudColorPicker @bind-text="Category.Color" ColorPickerMode="ColorPickerMode.HEX" />
+		</MudItem>
+	</DialogContent>
+	<DialogActions>
+		<MudButton Color="Color.Primary" OnClick="Cancel" Class="my-3">Cancel</MudButton>
+		<MudButton Color="Color.Primary" OnClick="SaveCategory" Class="my-3">Save Category</MudButton>
+	</DialogActions>
+</MudDialog>
+
+@code {
+	[CascadingParameter]
+	public IMudDialogInstance MudDialog { get; set; } = null!;
+	[Parameter]
+	public Category Category { get; set; } = new();
+
+	public async Task SaveCategory()
+	{
+		if (Category.Id != 0)
+		{
+			await CategoryService.UpdateCategory(Category);
+		}
+		else
+		{
+			await CategoryService.AddCategory(Category);
+		}
+
+		MudDialog.Close(DialogResult.Ok(true));
+	}
+
+	public void Cancel() => MudDialog.Cancel();
+}

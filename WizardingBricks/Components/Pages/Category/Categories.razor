@@ -1,6 +1,10 @@
 ﻿@page "/categories"
 @inject CategoryService CategoryService
+@inject IDialogService DialogService
+@inject NavigationManager Navigation
+
 <h1>Categories</h1>
+<MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="OpenAddCategoryDialog">Add Set</MudButton>
 
 <MudTable Items="CategoryList" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
     <HeaderContent>
@@ -16,10 +20,27 @@
 
 @code {
 
-	public List<Category> CategoryList { get; set; } = [];
+    public List<Category> CategoryList { get; set; } = [];
 
-	protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
+    {
+        CategoryList = await CategoryService.GetCategoriesAsync();
+    }
+
+	public async Task OpenAddCategoryDialog()
 	{
-		CategoryList = await CategoryService.GetCategoriesAsync();
+		var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+		var parameters = new DialogParameters<EditCategoryDialog>
+		{
+			{x => x.Category, new()}
+		};
+
+		var dialog = await DialogService.ShowAsync<EditCategoryDialog>("Add Category Dialog", parameters, options);
+		var result = await dialog.Result;
+
+		if (result is not null && !result.Canceled)
+		{
+			Navigation.NavigateTo(Navigation.Uri, true);
+		}
 	}
 }
