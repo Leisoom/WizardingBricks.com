@@ -25,7 +25,7 @@
 
 	public void NavigateToDetailsPage(int id) => Navigation.NavigateTo("/characters/" + id);
 
-	private async Task OpenAddCharacterDialog()
+	public async Task OpenAddCharacterDialog()
 	{
 		var options = new DialogOptions { CloseOnEscapeKey = true };
 		var parameters = new DialogParameters<EditCharacterDialog>
@@ -33,7 +33,7 @@
 			{x => x.Character, new()}
 		};
 
-		var dialog = await DialogService.ShowAsync<EditCharacterDialog>("Simple Dialog", parameters, options);
+		var dialog = await DialogService.ShowAsync<EditCharacterDialog>("Add Character Dialog", parameters, options);
 		var result = await dialog.Result;
 
 		if(result is not null && !result.Canceled)

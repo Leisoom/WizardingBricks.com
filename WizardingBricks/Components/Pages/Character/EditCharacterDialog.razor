@@ -27,7 +27,15 @@
 
 	public async Task SaveCharacter()
 	{
-		await CharacterService.AddCharacter(Character);
+		if(Character.Id == 0)
+		{
+			await CharacterService.AddCharacter(Character);
+		}
+		else
+		{
+			await CharacterService.UpdateCharacter(Character);
+		}
+
 		MudDialog.Close(DialogResult.Ok(true));
 	}
 
