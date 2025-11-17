@@ -15,24 +15,30 @@ else
 		<MudIcon Color="Color.Primary" Class="cursor-pointer" @onclick="OpenEditCharacterDialog" Icon="@Icons.Material.Filled.Edit" />
 		<MudIcon Color="Color.Primary" Class="cursor-pointer" @onclick="OpenDeleteDialog" Icon="@Icons.Material.Filled.Close" />
 	</h1>
-	<MudText Typo="Typo.h5">Minifigures Featured In: </MudText>
-	<MudGrid>
-		@foreach (var mf in @Character.Minifigures)
-		{
-			<MudItem xs="2">
-				<MinifigureCard Minifigure="mf" />
-			</MudItem>
-		}
-	</MudGrid>
-	<MudText Typo="Typo.h5">Sets Featured In: </MudText>
-	<MudGrid>
-	@foreach(var set in Sets)
+	@if(Character.Minifigures.Count > 0)
 	{
-		<MudItem>
-			<SetCard Set="set" />
-		</MudItem>
+		<MudText Typo="Typo.h5">Minifigures Featured In: </MudText>
+		<MudGrid>
+			@foreach (var mf in @Character.Minifigures)
+			{
+				<MudItem xs="2">
+					<MinifigureCard Minifigure="mf" />
+				</MudItem>
+			}
+		</MudGrid>
 	}
-	</MudGrid>
+	@if(Sets.Count > 0)
+	{
+		<MudText Typo="Typo.h5">Sets Featured In: </MudText>
+		<MudGrid>
+			@foreach (var set in Sets)
+			{
+				<MudItem>
+					<SetCard Set="set" />
+				</MudItem>
+			}
+		</MudGrid>
+	}
 }
 
 @code {
