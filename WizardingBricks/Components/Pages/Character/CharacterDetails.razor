@@ -11,7 +11,10 @@
 }
 else
 {
-	<h1 class="mb-3">@Character.Name <MudIcon Color="Color.Primary" @onclick="OpenEditCharacterDialog" Icon="@Icons.Material.Filled.Edit" /></h1>
+	<h1 class="mb-3">@Character.Name 
+		<MudIcon Color="Color.Primary" Class="cursor-pointer" @onclick="OpenEditCharacterDialog" Icon="@Icons.Material.Filled.Edit" />
+		<MudIcon Color="Color.Primary" Class="cursor-pointer" @onclick="OpenDeleteDialog" Icon="@Icons.Material.Filled.Close" />
+	</h1>
 	<MudText Typo="Typo.h5">Minifigures Featured In: </MudText>
 	<MudGrid>
 		@foreach (var mf in @Character.Minifigures)
@@ -54,6 +57,27 @@ else
 					Sets.UnionWith(setList.Where(s => s.Minifigures.Contains(mf)).ToHashSet());
 				}
 			}
+		}
+	}
+
+	public async Task OpenDeleteDialog()
+	{
+		var options = new DialogOptions { CloseOnEscapeKey = true };
+		var parameters = new DialogParameters<ConfirmDialog>
+		{
+			{ x => x.ContentText, $"Do you really want to delete {Character.Name}? This process cannot be undone." },
+			{ x => x.ButtonText, "Delete" },
+			{ x => x.Color, Color.Error },
+		};
+
+		var dialog = await DialogService.ShowAsync<ConfirmDialog>("Confirm Deletion", parameters, options);
+		var result = await dialog.Result;
+
+		if (result is not null && !result.Canceled)
+		{
+			await CharacterService.DeleteCharacter(Character);
+			Character = new();
+			Navigation.NavigateTo("/characters");
 		}
 	}
 
