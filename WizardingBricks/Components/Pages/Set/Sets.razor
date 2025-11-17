@@ -1,7 +1,11 @@
 ﻿@page "/sets"
 @inject SetService SetService
+@inject IDialogService DialogService
+@inject NavigationManager Navigation
 
 <h1>List of Sets</h1>	
+
+<MudButton OnClick="OpenAddSetDialog">Add Set</MudButton>
 
 <MudGrid>
 	@foreach(Set set in SetList) {
@@ -18,5 +22,22 @@
 	protected override async Task OnInitializedAsync()
 	{
 		SetList = await SetService.GetSetList();
+	}
+
+	public async Task OpenAddSetDialog()
+	{
+		var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth=MaxWidth.Large, FullWidth=true };
+		var parameters = new DialogParameters<EditSetDialog>
+		{
+			{x => x.Set, new()}
+		};
+
+		var dialog = await DialogService.ShowAsync<EditSetDialog>("Add Set Dialog", parameters, options);
+		var result = await dialog.Result;
+
+		if (result is not null && !result.Canceled)
+		{
+			Navigation.NavigateTo(Navigation.Uri, true);
+		}
 	}
 }

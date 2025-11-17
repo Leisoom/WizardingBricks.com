@@ -1,0 +1,126 @@
+﻿@inject SetService SetService
+@inject NavigationManager Navigation
+@inject CategoryService CategoryService
+@inject IDialogService DialogService
+
+
+<MudDialog>
+    <TitleContent>
+        @if (Set.Id == 0)
+        {
+            <h1>Add A New Set</h1>
+        }
+        else
+        {
+            <h1>Edit Set: @Set.Name</h1>
+        }
+    </TitleContent>
+
+    <DialogContent>
+        <MudItem Class="my-3">
+            <MudInputLabel>Set Number</MudInputLabel>
+            <MudTextField @bind-Value="Set.Set_Number" Variant="Variant.Text" />
+        </MudItem>
+        <MudItem Class="my-3">
+            <MudInputLabel>Name</MudInputLabel>
+            <MudTextField @bind-Value="Set.Name" Variant="Variant.Text" />
+        </MudItem>
+        <MudItem Class="my-3">
+            <MudInputLabel>Year</MudInputLabel>
+            <MudTextField @bind-Value="Set.Year" Variant="Variant.Text" />
+        </MudItem>
+        <MudItem Class="my-3">
+            <MudInputLabel>Number</MudInputLabel>
+            <MudTextField @bind-Value="Set.Number_Of_Parts" Variant="Variant.Text" />
+        </MudItem>
+        <MudItem Class="my-3">
+            <MudInputLabel>Preview Image URL</MudInputLabel>
+            <MudTextField @bind-Value="Set.Preview_Image_URL" Variant="Variant.Text" />
+        </MudItem>
+        <MudItem Class="my-3">
+            <MudInputLabel>Instructions URL</MudInputLabel>
+            <MudTextField @bind-Value="Set.Instructions_URL" Variant="Variant.Text" />
+        </MudItem>
+        <MudItem Class="my-4">
+            <MudInputLabel>Categories</MudInputLabel>
+
+            <MudChipSet @bind-SelectedValues="categories" SelectionMode="SelectionMode.MultiSelection" CheckMark>
+                @foreach (Category category in CategoryList)
+                {
+                    <MudChip Value="category" Text="@category.Name" Style="@($"background:{category.Color};")" />
+                }
+
+            </MudChipSet>
+        </MudItem>
+    </DialogContent>
+	
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="SaveSet" Class="my-3">Save Set</MudButton>
+        @if (Set.Id != 0)
+        {
+            <MudButton Color="Color.Primary" OnClick="DeleteSet" Class="my-3">Delete Set</MudButton>
+        }
+
+        <MudButton @onclick="OpenMinifigureBrowser" Color="Color.Primary">
+            Edit Minifigures
+        </MudButton>
+    </DialogActions>
+	
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    public IMudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public Set Set { get; set; } = new();
+    public List<Category> CategoryList { get; set; } = [];
+    public IReadOnlyCollection<Category> categories = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        categories = new ReadOnlyCollection<Category>(Set.Categories.ToList());
+        CategoryList = await CategoryService.GetCategoriesAsync();
+    }
+
+    public async Task SaveSet()
+    {
+        Set.Categories = categories.ToList();
+
+        if(Set.Id != 0)
+        {
+            await SetService.UpdateSet(Set);
+        }
+        else
+        {
+            await SetService.AddSet(Set);
+        }
+
+        Set = new();
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    public async Task DeleteSet()
+    {
+        await SetService.DeleteSet(Set);
+        Navigation.NavigateTo("/sets");
+    }
+
+    private async Task OpenMinifigureBrowser()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, MaxWidth = MaxWidth.Large, CloseButton = true };
+        var parameters = new DialogParameters<MinifigureBrowser>
+        {
+            { x => x.PreselectedMinifigures, Set.Minifigures},
+        };
+        IDialogReference? dialog = await DialogService.ShowAsync<MinifigureBrowser>("Minifigure Browser", parameters, options);
+        DialogResult? result = await dialog.Result;
+  
+        if (result is not null && !result.Canceled)
+        {
+            var minifigures = (HashSet<Minifigure>)result.Data!; 
+            Set.Minifigures = minifigures.ToList();
+        }
+    }
+}
